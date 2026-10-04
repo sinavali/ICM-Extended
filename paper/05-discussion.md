@@ -1,0 +1,43 @@
+# 5. Discussion
+
+5.1. Where This Works
+
+ICM handles sequential multi-step workflows where a human reviews output at each stage. In practice, the protocol has been applied to content production pipelines (script-to-animation, short-form video), training material development (slide deck generation from source material), academic research workflows (at the University of Edinburgh and ICR Research), and policy analysis (at the Academy of International Affairs, Bonn). The common thread across these deployments is that the workflows are sequential, the outputs benefit from human review at each step, and the same pipeline runs repeatedly with different input.
+
+The common thread is that these workflows are sequential (step 2 follows step 1), reviewable (a human should check each step’s output), and repeatable (the same pipeline runs weekly or daily with different input). For this class of workflow, ICM provides full orchestration capability with no framework code, no server infrastructure, and no developer dependency for day-to-day operation.
+
+5.2. Where This Does Not Work
+
+ICM is not a replacement for multi-agent frameworks in every context.
+
+Real-time multi-agent collaboration, where agents need to communicate dynamically and respond to each other’s outputs in tight loops, requires the kind of message-passing infrastructure that AutoGen (20) and similar frameworks provide. ICM’s sequential, file-based handoffs are too slow for this.
+
+High-concurrency systems where many users hit the same pipeline simultaneously need proper queueing, state isolation, and deployment infrastructure. ICM is local-first by design. Scaling it to concurrent users would require building the infrastructure ICM was designed to avoid.
+
+Workflows that require complex branching logic based on AI decisions mid-pipeline are awkward in ICM. A human can make branching decisions between stages (run stage 3a instead of 3b based on what they see in the stage 2 output), but automated branching would require scripting that moves ICM toward being a framework itself.
+
+These boundaries matter. The claim is not that ICM replaces existing tools across the board. The claim is that for a large and common class of workflows, the existing tools provide more complexity than the problem requires, and that complexity has real costs: opacity, fragility, developer dependency, and overhead that slows iteration.
+
+5.3. Observability as a Side Effect
+
+The most useful property of ICM may be one that was not designed as a feature. Because every intermediate output is a plain file, the system is observable by default. There is no logging layer to build, no dashboard to configure, no special tooling to inspect pipeline state. You open a folder and read the files.
+
+Rudin argued that inherently interpretable systems should be preferred over post-hoc explanations of opaque ones (45). ICM is a glass-box AI workflow. It did not become transparent through the addition of an explanation layer. It was never opaque in the first place, because every artifact is a plain-text file that a human can read.
+
+Amershi et al.’s guidelines for human-AI interaction include “make clear what the system can do,” “support efficient correction,” and “support efficient dismissal” (47). Stage contracts make capabilities explicit. Markdown files support efficient correction (open, edit, save). Review gates at every stage boundary support dismissal (decide not to proceed, re-run the previous stage with different input, or abandon the run entirely).
+
+The regulatory landscape may also be relevant here. The EU AI Act’s human oversight requirements (49, 50) emphasize staged review, audit trails, and defined intervention points. ICM produces these as a byproduct of its architecture: there is no way to run an ICM pipeline without generating inspectable intermediate artifacts, because the intermediate artifacts are how the stages communicate. Whether this constitutes compliance with specific regulatory requirements is a legal question this paper does not attempt to answer, but the structural alignment is worth noting.
+
+5.4. Implications for Intelligent System Design
+
+The discussion so far has focused on how ICM structures the human side of human-AI interaction: edit surfaces, review gates, observability. But the architecture also has implications for how the intelligent system itself performs, and these are worth examining.
+
+The core mechanism is context scoping. By delivering different context to the same model at each stage, ICM changes the task the model is performing. A model that receives research instructions, source material, and a topic brief behaves differently from the same model receiving a script template, a voice guide, and a research summary. The model’s capabilities do not change between stages. What changes is the information it has available when generating output. This is context engineering in practice: the performance of the system depends on what context is delivered, in what structure, and at what moment.
+
+The Layer 3/Layer 4 distinction adds a further dimension. Reference material (Layer 3) and working artifacts (Layer 4) ask different things of the model. Reference material says: here are the rules, follow them. Working artifacts say: here is the input, transform it. Delivering these as structurally separate context, rather than mixing them in a single undifferentiated prompt, gives the model clearer signals about which information constrains its behavior and which information it should act on. Whether this structural separation measurably improves output quality compared to a flat context of equivalent content is an open empirical question, but early practitioner experience suggests that stages where reference and working material are clearly separated produce more consistent adherence to style and format guidelines.
+
+This raises a question about the relationship between context structure and output quality. In early use, a pattern emerged: stages with tightly scoped context (clear instructions, limited reference material, a specific output format) produced more consistent results than stages with broad context (open-ended instructions, large volumes of reference material, loosely defined output expectations). This is consistent with the “lost in the middle” findings (25) and with the chain-of-thought literature showing that decomposed tasks outperform monolithic ones (27), but it suggests something more specific. The structure of the context delivery, how information is organized and bounded, may matter as much as the content of the context itself. ICM’s folder-based scoping enforces this structure by default: each stage folder contains only what that stage needs, and the boundaries are visible and editable.
+
+There are open questions here that the current work does not answer. First, does the five-layer hierarchy (workspace identity, task routing, stage contracts, reference material, working artifacts) generalize across model families, or is it tuned to the specific attention patterns of the models tested? The protocol is designed to be model-agnostic (Section 4.1), but all current testing has been conducted on a single model family. Cross-model evaluation, running the same workspace on Claude, GPT, Gemini, and open-weight models such as Llama, is a clear next step. This paper scopes that question as future work because the present contribution is the architectural pattern and its interaction properties, not a model-specific performance claim. Second, as context windows grow larger, does selective loading become less important? If a model can reliably attend to 200,000 tokens without degradation, the engineering argument for ICM’s scoping weakens, though the human-interaction arguments (observability, editability, review gates) remain. Third, how sensitive is stage output quality to the ordering and formatting of context within a layer? The current protocol specifies what files a stage should load but does not prescribe the order in which they appear in the context window. Whether ordering matters at the scale of ICM’s typical context sizes (2,000 to 8,000 tokens per stage) is an empirical question worth investigating.
+
+These questions point toward a research program that sits at the intersection of context engineering and interaction design: understanding how the structure of information delivery to language models affects both the model’s output quality and the human’s ability to steer, inspect, and correct that output. ICM provides a concrete platform for investigating these questions because its architecture makes the context structure explicit, editable, and observable at every stage.
