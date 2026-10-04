@@ -1,6 +1,6 @@
 # ICM v2 — Enhanced Methodology
 
-**Status:** active development. Version **2.2.0**.
+**Status:** active development. Version **2.2.1**.
 **Started:** 2026-10-04.
 **Derived from:** *Interpretable Context Methodology: Folder Structure as Agent Architecture* —
 Jake Van Clief and David McDermott, Eduba / University of Edinburgh,

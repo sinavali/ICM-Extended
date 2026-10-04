@@ -41,7 +41,7 @@ an exit state.
 | C13 | Model-specific prompt adapters | I13 | absent | — | open |
 | C14 | Automatic stage splitting by token count | I14 | absent | — | open |
 | C15 | Token estimation, budgets, quotas | E8, G3, A3 | asserted in §3.2, never computed | — | open |
-| C16 | Non-text artifact handling | I15, G6, A6 | absent and in tension — see D-02 | — | open |
+| C16 | Non-text artifact handling | I15, G6, A6 | partial — §4.3 consumes PDFs; §3.1 forbids binaries — D-02 | — | partial |
 | C17 | DAG scheduling and concurrency | I16, G10, A11 | absent; §5.2 scopes out | — | open |
 | C18 | Monorepo and polyglot | I17 | absent | — | open |
 | C19 | Large-codebase scaling | I18 | absent | — | open |
@@ -149,7 +149,14 @@ mechanism does not exist. Each names what is missing.
 | C23 dependency graph | §6.1 | the `deps` field itself; staleness is described as a consequence, not specified |
 | C24 model routing | §4.1 | a declared routing rule with fallback, rather than an observed delegation habit |
 | C33 skill registry | §3.2 | skill *files* are named as Layer 3 content; no manifest, lifecycle or registry |
-| C15 token budget | §3.2 | the numbers are asserted. No estimator, no budget, no enforcement — counted as **open** for that reason |
+
+**One near-miss, recorded so it is not re-litigated.** C15 (token estimation, budgets,
+quotas) is in the same shape — §3.2 asserts 2,000–8,000 tokens per stage, and the mechanism
+that would compute it does not exist. It is nonetheless counted `open`, not `partial`, on
+one ground: what the paper carries is a **number**, not a concept. There is no prose
+mechanism to complete, only a measurement to build, and a measurement has no half-built
+form. If C15 ever becomes concept-in-prose it moves here; until then it stays in the
+`open` row of the cluster map.
 
 ## 3. Ordering inversions found in the requested list
 

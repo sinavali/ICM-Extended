@@ -9,20 +9,20 @@ a place where a careful reader would stop and ask.
 **Status values:** `open` — correction owed, owner named · `carried` — recorded, resolved
 in v2, paper left alone · `noted` — informational, no action needed.
 
-| Ref | Sev | Concern | Owner |
-| --- | --- | --- | --- |
-| [D-01](#d-01) | high | §5.3 argues there is no logging layer to build; production traceability needs one | C25 |
-| [D-02](#d-02) | high | §3.1 forbids binary formats; §4.3 consumes PDFs | C16 |
-| [D-03](#d-03) | high | "Inputs table" is called a table twice and shown as a bullet list | C3 |
-| [D-04](#d-04) | medium | §6.2 cites Section 4.4 for a result reported in §4.5 | C27 |
-| [D-05](#d-05) | medium | Ten subsection headings are plain paragraphs | restated in v2 |
-| [D-06](#d-06) | medium | §3.1 promises "markdown and JSON files"; no JSON is ever named | C3 |
-| [D-07](#d-07) | medium | Figure 1 hardcodes `CLAUDE.md` and `CONTEXT.md` for Layers 0–1 in a protocol declared model-agnostic | C3 |
-| [D-08](#d-08) | medium | §4.1 asserts model-agnosticism; §4.6 admits single-family testing | C13 |
-| [D-09](#d-09) | medium | "Stage sequencing is the folder numbering" — numbering encodes a total order, not a dependency | C23 |
-| [D-10](#d-10) | low | Figure 3 caption says monolithic exceeds 40,000; §3.2 says 30,000–50,000 | C7 |
-| [D-11](#d-11) | medium | Figure 5 plots an ordinal scale but the caption attributes counts to 33 practitioners | C27 |
-| [D-12](#d-12) | low | The method is stated once, in English prose, with no formal definitions anywhere | C1 → carried |
+| Ref | Sev | Status | Concern | Owner |
+| --- | --- | --- | --- | --- |
+| [D-01](#d-01) | high | open | §5.3 argues there is no logging layer to build; production traceability needs one | C25 |
+| [D-02](#d-02) | high | open | §3.1 forbids binary formats; §4.3 consumes PDFs | C16 |
+| [D-03](#d-03) | high | open | "Inputs table" is called a table twice and shown as a bullet list | C3 |
+| [D-04](#d-04) | medium | open | §6.2 cites Section 4.4 for a result reported in §4.5 | C27 |
+| [D-05](#d-05) | medium | carried | Ten subsection headings are plain paragraphs | restated in v2 |
+| [D-06](#d-06) | medium | open | §3.1 promises "markdown and JSON files"; no JSON is ever named | C3 |
+| [D-07](#d-07) | medium | open | Figure 1 hardcodes `CLAUDE.md` and `CONTEXT.md` for Layers 0–1 in a protocol declared model-agnostic | C3 |
+| [D-08](#d-08) | medium | open | §4.1 asserts model-agnosticism; §4.6 admits single-family testing | C13 |
+| [D-09](#d-09) | medium | open | "Stage sequencing is the folder numbering" — numbering encodes a total order, not a dependency | C23 |
+| [D-10](#d-10) | low | open | Figure 3 caption says monolithic exceeds 40,000; §3.2 says 30,000–50,000 | C7 |
+| [D-11](#d-11) | medium | open | Figure 5 plots an ordinal scale but the caption attributes counts to 33 practitioners | C27 |
+| [D-12](#d-12) | low | carried | The method is stated once, in English prose, with no formal definitions anywhere | C1 |
 
 ---
 

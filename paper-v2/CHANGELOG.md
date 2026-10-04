@@ -14,6 +14,80 @@ declares out of scope · `correction` — fixes something the paper states incon
 
 ---
 
+## v2.2.1 — 2026-10-04 — delivery audit of C1 and C2
+
+**Type:** correction
+**Driver:** the standing test for a work item is *"complete without gaps and
+un-concreteness"*, applied to the shipped files rather than to the notes made while
+writing them
+**Files:** [WORKLIST.md](WORKLIST.md) and [DEVIATIONS.md](DEVIATIONS.md) — `modified`;
+[README.md](README.md) — version bump only
+
+No definition, term, pattern or check changed. Every defect below was in the
+**bookkeeping that tells a reader what state the work is in** — which is precisely the
+kind of defect this tree exists to prevent elsewhere, so leaving them would have been the
+worst possible place to leave them.
+
+### What was wrong
+
+1. **The worklist contradicted itself three ways.** The cluster map marked **C16** (non-text
+   artifact handling) `open`, while the coverage accounting counted it `partial` and gave
+   it a row in the §2 table whose own preamble reads *"These are not `done` and are not
+   `open`."* Arithmetic followed: the map held 2 done / 7 partial / 27 open and the
+   accounting claimed 2 / 8 / 26.
+
+   Resolved at the cause. C16 is **`partial`**, because it is the same shape as the other
+   seven — §4.3 consumes PDFs in prose and no mechanism exists, which is exactly the §2
+   definition. The map row was the error, not the accounting.
+
+2. **C15 sat in a table it contradicted.** §3.2 asserts 2,000–8,000 tokens per stage and
+   nothing computes them, which is `partial` by the letter of §2's definition — but the row
+   itself said *"counted as `open` for that reason."* A row arguing against the table it
+   lives in is a defect whatever the verdict.
+
+   Kept `open` and moved the argument out of the table, because the ground is real: what
+   the paper carries is a **number**, not a concept. There is no prose mechanism to
+   complete — only a measurement to build, and a measurement has no half-built form. It is
+   now a named near-miss with its condition for changing.
+
+3. **The deviation register declared a vocabulary it never used.** Its header defines
+   `open` / `carried` / `noted`, and the summary table had no status column at all — so an
+   auditor could not tell, from the register alone, which defects were already discharged.
+   Column added and populated. It now reads against the worklist: **D-05 and D-12 are
+   `carried`** because their owners are finished (restated in v2; C1), and the other ten
+   are `open` because their owning concerns are not.
+
+### Verification
+
+31 automated checks across all six files, all passing, and three of them were *changed*
+because the original assertion was wrong rather than the file:
+
+- Checks previously run against `### D-##` headings when the register uses `## D-##`, which
+  reported all twelve deviations as missing when all twelve exist.
+- A check comparing README's contents table against the directory included `README.md`
+  itself, which a README correctly does not list.
+- A check asserting every pattern had an enforcing check compared against `DP-01`–`DP-13`;
+  the correct assertion is `DP-01`–`DP-10` plus `DP-12`, because DP-11's exception is
+  documented in the coverage table rather than papered over.
+
+Each was corrected to assert what is actually required, not relaxed to make it pass.
+
+New checks added by this audit, all passing:
+
+- every status value used in the glossary is one §3 documents;
+- every deviation's status agrees with its owner's worklist status — the one rule that
+  stops a register and a worklist drifting apart;
+- `DRC-01`–`DRC-50` have no gaps and no duplicates (the earlier check counted headings but
+  never verified the *sequence*);
+- all nine conditional review groups exist, one per universality axis, and each states its
+  activation condition;
+- every work item marked `done` names an artifact that resolves.
+
+**Verification.** `paper/` and `figures/` remain byte-identical; `git status` shows changes
+only under `paper-v2/`.
+
+---
+
 ## v2.2.0 — 2026-10-04 — C2, Design patterns and the design review checklist
 
 **Type:** formalisation
